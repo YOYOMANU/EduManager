@@ -1,58 +1,164 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Edu Manager
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Plateforme web de gestion des étudiants, développée avec Laravel.
 
-## About Laravel
+![Aperçu de l'application](docs/demo.png)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## À propos
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Edu Manager centralise la gestion des étudiants d'un établissement : inscription, consultation de la liste, modification et suppression des fiches. L'objectif est de remplacer les suivis dispersés par une application unique, simple et claire.
 
-## Learning Laravel
+Une partie dédiée aux enseignants est prévue dans une prochaine version.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Fonctionnalités
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- Inscription d'un étudiant
+- Affichage de la liste des étudiants
+- Modification et suppression d'une fiche étudiant
+- Authentification des utilisateurs
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+À venir :
 
-## Agentic Development
+- Espace enseignants
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## Stack technique
+
+- [Laravel](https://laravel.com)
+- PHP 8.2 ou supérieur
+- Composer
+- Node.js et npm (pour les assets front)
+- Base de données : SQLite (par défaut) ou MySQL
+
+## Installation en local
+
+### 1. Prérequis
+
+Vérifie que ces outils sont installés :
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+php -v
+composer -V
+node -v
+npm -v
+git --version
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+### 2. Cloner le dépôt
 
-## Contributing
+```bash
+git clone https://github.com/YOYOMANU/EduManager.git
+cd edu-manager
+git checkout develop
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 3. Installer les dépendances
 
-## Code of Conduct
+```bash
+composer install
+npm install
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 4. Configurer l'environnement
 
-## Security Vulnerabilities
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Ouvre ensuite le fichier `.env` et adapte la configuration de la base de données.
 
-## License
+Avec SQLite (le plus simple), il suffit de créer le fichier de base :
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+touch database/database.sqlite
+```
+
+Avec MySQL, renseigne ces variables :
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=edu_manager
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+### 5. Préparer la base de données
+
+```bash
+php artisan migrate
+```
+
+Pour insérer des données de démonstration (si des seeders existent) :
+
+```bash
+php artisan migrate --seed
+```
+
+### 6. Lancer l'application
+
+Dans un premier terminal, le serveur Laravel :
+
+```bash
+php artisan serve
+```
+
+Dans un second terminal, la compilation des assets :
+
+```bash
+npm run dev
+```
+
+L'application est disponible sur [http://127.0.0.1:8000](http://127.0.0.1:8000).
+
+## Lancer les tests
+
+```bash
+php artisan test
+```
+
+Pour lancer un fichier de test précis :
+
+```bash
+php artisan test tests/Feature/NomDuTest.php
+```
+
+## Workflow Git et contribution
+
+Les branches `main` et `develop` sont protégées : aucun push direct n'est possible.
+
+| Branche               | Rôle                                           |
+| --------------------- | ---------------------------------------------- |
+| `main`                | Version stable, prête pour la livraison        |
+| `develop`             | Branche d'intégration commune à toute l'équipe |
+| `feat/...`, `fix/...` | Branches personnelles, créées depuis `develop` |
+
+Étapes pour contribuer :
+
+1. Mettre à jour `develop` : `git checkout develop && git pull`
+2. Créer sa branche : `git checkout -b feat/nom-de-la-fonctionnalite`
+3. Coder, puis committer et pousser : `git push -u origin feat/nom-de-la-fonctionnalite`
+4. Ouvrir une pull request **vers `develop`**
+5. Obtenir **2 approbations** de la part de deux autres collaborateurs et résoudre tous les commentaires
+6. Fusionner (Squash and merge)
+
+Les versions de `develop` sont ensuite livrées sur `main` via une pull request soumise aux mêmes règles (Merge commit).
+
+## Collaborateurs
+
+Merci à toute l'équipe qui construit Edu Manager :
+
+| Nom    | Rôle           | GitHub                               |
+| ------ | -------------- | ------------------------------------ |
+| Yoann  | Chef de projet | https://github.com/YOYOMANU          |
+| Peggy  | Collaboratrice | https://github.com/Peggy06-n         |
+| Janice | Collaboratrice | https://github.com/janicegnahore30   |
+| Naomi  | Collaboratrice | https://github.com/naomitinan-source |
+| Levi   | Collaborateur  | [@pseudo](https://github.com/pseudo) |
+
+## Licence
+
+À définir.
