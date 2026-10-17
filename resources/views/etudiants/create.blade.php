@@ -1,29 +1,8 @@
-<!DOCTYPE html>
-<html lang="fr" data-theme="forest">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+@extends("base")
+@section("title",$etudiant->exists ? "Modifier un etudiant" : "Creer un etudiant")
+@section("content")
 
-    <title>Ajouter un étudiant | EduManager</title>
 
-    <link
-        href="https://cdn.jsdelivr.net/npm/daisyui@4.12.24/dist/full.min.css"
-        rel="stylesheet"
-        type="text/css"
-    >
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-
-<body class="min-h-screen bg-base-200">
-
-    <nav class="navbar bg-base-300 shadow-lg px-6">
-        <div class="flex-1">
-            <a href="{{ route('etudiants.index') }}"
-               class="btn btn-ghost text-xl">
-                🌲 EduManager
-            </a>
-        </div>
-    </nav>
 
     <main class="container mx-auto max-w-2xl px-4 py-10">
 
@@ -31,7 +10,7 @@
             <div class="card-body">
 
                 <h1 class="text-2xl font-bold mb-2">
-                    Ajouter un étudiant
+                     {{$etudiant->exists ? "Modifier un etudiant" : "Creer un etudiant"}}
                 </h1>
 
                 <p class="text-base-content/70 mb-4">
@@ -51,11 +30,13 @@
                     </div>
                 @endif
 
-                <form action="{{ route('etudiants.store') }}"
+                <form action="{{ $etudiant->exists ? route('etudiants.update', ['etudiant' => $etudiant]) : route('etudiants.store') }}"
                       method="POST">
 
                     @csrf
-
+@if ($etudiant->exists)
+                        @method('PUT')
+                    @endif
                     <div class="form-control mb-4">
                         <label for="nom" class="label">
                             <span class="label-text">Nom</span>
@@ -65,7 +46,7 @@
                             name="nom"
                             type="text"
                             class="input input-bordered w-full"
-                            value="{{ old('nom') }}"
+                            value="{{ old('nom', $etudiant->nom) }}"
                             required
                         >
                     </div>
@@ -79,7 +60,7 @@
                             name="prenom"
                             type="text"
                             class="input input-bordered w-full"
-                            value="{{ old('prenom') }}"
+                           value="{{ old('prenom', $etudiant->prenom) }}"
                             required
                         >
                     </div>
@@ -94,7 +75,7 @@
                             type="text"
                             class="input input-bordered w-full"
                             placeholder="Ex. Informatique"
-                            value="{{ old('filiere') }}"
+                            value="{{ old('filiere', $etudiant->filiere) }}"
                             required
                         >
                     </div>
@@ -113,7 +94,7 @@
                             @foreach (['L1', 'L2', 'L3', 'M1', 'M2'] as $niveau)
                                 <option
                                     value="{{ $niveau }}"
-                                    @selected(old('niveau') === $niveau)
+                                    @selected(old('niveau',$etudiant->niveau) === $niveau)
                                 >
                                     {{ $niveau }}
                                 </option>
@@ -130,14 +111,14 @@
                             name="email"
                             type="email"
                             class="input input-bordered w-full"
-                            value="{{ old('email') }}"
+                            value="{{ old('email', $etudiant->email) }}"
                             required
                         >
                     </div>
 
                     <div class="flex flex-wrap gap-3">
                         <button type="submit" class="btn btn-primary">
-                            Enregistrer l'étudiant
+                           {{$etudiant->exists ? "Modifier un etudiant" : "Creer un etudiant"}}
                         </button>
 
                         <a href="{{ route('etudiants.index') }}"
@@ -153,5 +134,4 @@
 
     </main>
 
-</body>
-</html>
+@endsection
