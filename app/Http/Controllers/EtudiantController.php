@@ -26,7 +26,10 @@ class EtudiantController extends Controller
      */
     public function create(): View
     {
-        return view('etudiants.create');
+        $etudiant = new Etudiant();
+        return view('etudiants.create',[
+            'etudiant' => $etudiant
+        ]);
     }
 
     /**
@@ -60,24 +63,39 @@ class EtudiantController extends Controller
     /**
      * Afficher le formulaire de modification.
      */
-    public function edit(string $id)
+    public function edit(Etudiant $etudiant)
     {
-        //
+         return view('etudiants.create',[
+            'etudiant' => $etudiant
+        ]);
     }
 
     /**
      * Mettre à jour un étudiant.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Etudiant $etudiant)
     {
-        //
+         $donnees = $request->validate([
+            'nom' => 'required|string|max:255',
+            'prenom' => 'required|string|max:255',
+            'filiere' => 'required|string|max:255',
+            'niveau' => 'required|string|max:50',
+            'email' => 'required|email|max:255',
+        ]);
+       $etudiant->update($donnees);
+       return redirect()
+            ->route('etudiants.index')
+            ->with('success', 'Étudiant modifié avec succès !');
     }
 
     /**
      * Supprimer un étudiant.
      */
-    public function destroy(string $id)
+    public function destroy(Etudiant $etudiant)
     {
-        //
+        $etudiant->delete();
+        return redirect()
+            ->route('etudiants.index')
+            ->with('success', 'Étudiant supprimé avec succès !');
     }
 }

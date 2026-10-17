@@ -1,18 +1,9 @@
 @extends("base")
 @section("title","liste-etudiants")
 @section("content")
-<div class="navbar bg-base-300 shadow-lg">
-        <div class="flex-1">
-            <a href="{{ route('etudiants.index') }}"
-               class="btn btn-ghost text-xl">
-                🌲 EduManager
-            </a>
-        </div>
 
-        <div class="flex-none">
-            <span class="badge badge-success">Gestion des étudiants</span>
-        </div>
-    </div>
+
+    
 
     <main class="container mx-auto px-4 py-10">
 
@@ -67,6 +58,8 @@
                                 <th>Filière</th>
                                 <th>Niveau</th>
                                 <th>E-mail</th>
+                                <th>Actions</th>
+                            
                             </tr>
                         </thead>
 
@@ -96,6 +89,23 @@
                                     </td>
 
                                     <td>{{ $etudiant->email }}</td>
+                                    <td class="pr-6">
+                            <div class="flex justify-end gap-2">
+                                <a href="{{ route('etudiants.edit', ['etudiant' => $etudiant]) }}"
+                                    class="btn btn-sm btn-outline btn-primary">
+                                    Modifier
+                                </a>
+
+                                <form action="{{ route('etudiants.destroy', ['etudiant' => $etudiant]) }}" method="POST"
+                                    onsubmit="return confirm('Supprimer {{ addslashes($etudiant->prenom . ' ' . $etudiant->nom) }} ?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-outline btn-error">
+                                        Supprimer
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
                                 </tr>
 
                             @empty
