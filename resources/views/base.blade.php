@@ -39,7 +39,7 @@
                     <ul tabindex="0"
                         class="menu dropdown-content z-10 mt-3 w-60 rounded-box border border-base-300 bg-base-100 p-2 shadow-lg">
                         <li><a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'bg-primary text-primary-content font-semibold hover:bg-primary' : '' }}">Accueil</a></li>
-                        <li><a href="#">Étudiants</a></li>
+                        <li><a href="{{ route("etudiants.index") }}">Étudiants</a></li>
                         <li><a href="#">Enseignants</a></li>
 
                         <li class="menu-title mt-2">Découvrir</li>
@@ -65,7 +65,7 @@
             <div class="navbar-center hidden lg:flex">
                 <ul class="menu menu-horizontal items-center gap-1 px-1">
                     <li><a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'bg-primary text-primary-content font-semibold hover:bg-primary' : '' }}">Accueil</a></li>
-                    <li><a href="#">Étudiants</a></li>
+                    <li><a href="{{ route("etudiants.index") }}" class="{{ request()->routeIs('etudiants.*') ? 'bg-primary text-primary-content font-semibold hover:bg-primary' : '' }}"">Étudiants</a></li>
                     <li><a href="#">Enseignants</a></li>
 
                     <li>
