@@ -3,39 +3,54 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use App\Models\Etudiant;
+
 class EtudiantController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Afficher la liste des étudiants.
      */
-    public function index()
+    public function index(): View
     {
         $etudiants = Etudiant::orderBy('nom')->get();
 
-        return view('etudiants.index',["etudiants"=>$etudiants] ) ;
+        return view('etudiants.index', [
+            'etudiants' => $etudiants
+        ]);
     }
 
-    
-
     /**
-     * Show the form for creating a new resource.
+     * Afficher le formulaire d'ajout.
      */
-    public function create()
+    public function create(): View
     {
-        //
+        return view('etudiants.create');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Enregistrer un nouvel étudiant.
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        //
+        $donnees = $request->validate([
+            'nom' => 'required|string|max:255',
+            'prenom' => 'required|string|max:255',
+            'filiere' => 'required|string|max:255',
+            'niveau' => 'required|string|max:50',
+            'email' => 'required|email|max:255|unique:etudiants,email',
+        ]);
+
+        Etudiant::create($donnees);
+
+        return redirect()
+            ->route('etudiants.index')
+            ->with('success', 'Étudiant ajouté avec succès !');
     }
 
     /**
-     * Display the specified resource.
+     * Afficher un étudiant.
      */
     public function show(string $id)
     {
@@ -43,7 +58,7 @@ class EtudiantController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Afficher le formulaire de modification.
      */
     public function edit(string $id)
     {
@@ -51,7 +66,7 @@ class EtudiantController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Mettre à jour un étudiant.
      */
     public function update(Request $request, string $id)
     {
@@ -59,7 +74,7 @@ class EtudiantController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Supprimer un étudiant.
      */
     public function destroy(string $id)
     {
