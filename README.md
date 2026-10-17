@@ -157,7 +157,7 @@ Merci à toute l'équipe qui construit Edu Manager :
 | Peggy  | Collaboratrice | https://github.com/Peggy06-n         |
 | Janice | Collaboratrice | https://github.com/janicegnahore30   |
 | Naomi  | Collaboratrice | https://github.com/naomitinan-source |
-| Levi   | Collaborateur  | [@pseudo](https://github.com/pseudo) |
+| Levi   | Collaborateur  | https://github.com/strausslevi9  |
 
 ## Licence
 
